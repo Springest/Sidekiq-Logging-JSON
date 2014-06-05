@@ -8,9 +8,14 @@ Gem::Specification.new do |spec|
   spec.version       = Sidekiq::Logging::Json::VERSION
   spec.authors       = ["Wouter de Vos"]
   spec.email         = ["wouter@springest.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Sidekiq JSON log format, e.g. for Logstash.}
+  spec.description   = <<-DESC
+At Springest, we use Logstash to ship all our logs to Elasticsearch. An Elasticsearch index consists of JSON documents.
+To make it possible to make fine grained queries on Sidekiq logs, we needed logging in JSON format.
+
+This gem contains that logger.
+DESC
+  spec.homepage      = "https://github.com/Springest/Sidekiq-Logging-JSON"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -20,4 +25,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.6"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "sidekiq"
 end
