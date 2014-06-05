@@ -7,6 +7,16 @@ consists of JSON documents. To make it possible to make fine grained
 queries on [Sidekiq](http://sidekiq.org/) logs, we needed logging in
 JSON format. This gem contains that logger.
 
+### Example log entry:
+
+```json
+{
+  message: "2014-06-05T12:38:42Z 8630 TID-osammcf2k TrainingIndexer::Work JID-177066e96052c2314dcad8c7 INFO: done: 51.579 sec",
+  status: "done",
+  run_time: 51.579
+}
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
