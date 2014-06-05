@@ -18,7 +18,7 @@ module Sidekiq
             :type => 'sidekiq',
             :status => nil,
             :run_time => nil
-          }.merge(processed_message(message)).to_json
+          }.merge(process_message(message)).to_json
         end
 
         def process_message(message)
