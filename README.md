@@ -1,24 +1,39 @@
 # Sidekiq::Logging::Json
 
-TODO: Write a gem description
+At [Springest](http://www.springest.com), we use
+[Logstash](http://logstash.net/) to ship all our logs to
+[Elasticsearch](http://www.elasticsearch.org/). An Elasticsearch index
+consists of JSON documents. To make it possible to make fine grained
+queries on [Sidekiq](http://sidekiq.org/) logs, we needed logging in
+JSON format. This gem contains that logger.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'sidekiq-logging-json'
+```ruby
+gem 'sidekiq-logging-json'
+```
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install sidekiq-logging-json
+```bash
+$ gem install sidekiq-logging-json
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Add this to your Sidekiq configuration:
+
+```ruby
+Sidekiq.logger.formatter = Sidekiq::Logging::Json.new
+```
 
 ## Contributing
 
