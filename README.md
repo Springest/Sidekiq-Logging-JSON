@@ -11,6 +11,13 @@ JSON format. This gem contains that logger.
 
 ```json
 {
+  "@timestamp": "2014-06-05T12:38:42Z",
+  "pid": 8630,
+  "tid": "TID-osammcf2k",
+  "context": "TrainingIndexer::Work JID-177066e96052c2314dcad8c7",
+  "severity": "INFO",
+  "program_name": "TrainingIndexer::Work",
+  "type": "sidekiq",
   "message": "2014-06-05T12:38:42Z 8630 TID-osammcf2k TrainingIndexer::Work JID-177066e96052c2314dcad8c7 INFO: done: 51.579 sec",
   "status": "done",
   "run_time": 51.579
