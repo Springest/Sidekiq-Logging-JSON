@@ -19,19 +19,16 @@ module Sidekiq
             '@type' => 'sidekiq',
             '@status' => nil,
             '@severity' => severity,
-            '@run_time' => nil
+            '@run_time' => nil,
+            '@message' => "#{time.utc.iso8601} #{::Process.pid} TID-#{Thread.current.object_id.to_s(36)}#{context} #{severity}: #{message}",
           }.merge(process_message(message, severity)).to_json + "\n"
         end
 
         def process_message(message, severity)
-          result = message.match(/#{severity}: (done|start|fail)(: ([0-9\.]+) sec)?$/)
-
-          return { '@message' => message } unless result
-
+          result = message.split(" ")
           {
-            '@message' => message,                       # The full message
-            '@status' => result[1],                      # start or done
-            '@run_time' => result[3] && result[3].to_f   # run time in seconds
+            '@status' => result[0],                      # start or done
+            '@run_time' => result[1] && result[1].to_f   # run time in seconds
           }
         end
       end
