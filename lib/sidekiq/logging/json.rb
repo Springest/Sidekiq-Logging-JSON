@@ -22,7 +22,7 @@ module Sidekiq
         end
 
         def process_message(message)
-          result = message.match(/INFO: (done|start)(: ([0-9\.]+) sec)?$/)
+          result = message.match(/INFO: (done|start|fail)(: ([0-9\.]+) sec)?$/)
 
           return { message: message } unless result
 
