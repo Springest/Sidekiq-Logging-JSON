@@ -20,7 +20,7 @@ module Sidekiq
             '@status' => nil,
             '@severity' => severity,
             '@run_time' => nil
-          }.merge(process_message(message)).to_json + "\r\n"
+          }.merge(process_message(message)).to_json + "\n"
         end
 
         def process_message(message)
