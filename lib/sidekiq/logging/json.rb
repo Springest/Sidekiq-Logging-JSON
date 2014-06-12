@@ -20,11 +20,11 @@ module Sidekiq
             '@status' => nil,
             '@severity' => severity,
             '@run_time' => nil
-          }.merge(process_message(message)).to_json + "\n"
+          }.merge(process_message(message, severity)).to_json + "\n"
         end
 
-        def process_message(message)
-          result = message.match(/INFO: (done|start|fail)(: ([0-9\.]+) sec)?$/)
+        def process_message(message, severity)
+          result = message.match(/#{severity}: (done|start|fail)(: ([0-9\.]+) sec)?$/)
 
           return { '@message' => message } unless result
 
