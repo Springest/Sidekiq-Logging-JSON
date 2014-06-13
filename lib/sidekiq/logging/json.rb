@@ -14,7 +14,8 @@ module Sidekiq
               :pid => ::Process.pid,
               :tid => "TID-#{Thread.current.object_id.to_s(36)}",
               :context => "#{context}",
-              :program_name => program_name
+              :program_name => program_name,
+              :worker => "#{context}".split(" ")[0]
             },
             '@type' => 'sidekiq',
             '@status' => nil,
