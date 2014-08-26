@@ -43,7 +43,7 @@ module Sidekiq
           end
 
           result = message.split(" ")
-          status = result[0].match(/^(start|done):?$/) || []
+          status = result[0].match(/^(start|done|fail):?$/) || []
 
           {
             '@status' => status[1],                      # start or done
