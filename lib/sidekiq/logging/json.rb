@@ -22,11 +22,25 @@ module Sidekiq
             '@severity' => severity,
             '@run_time' => nil,
             '@message' => "#{time.utc.iso8601} #{::Process.pid} TID-#{Thread.current.object_id.to_s(36)}#{context} #{severity}: #{message}",
-          }.merge(process_message(message)).to_json + "\n"
+          }.merge(process_message(severity, time, program_name, message)).to_json + "\n"
         end
 
-        def process_message(message)
+        def process_message(severity, time, program_name, message)
           return { '@status' => 'exception' } if message.is_a?(Exception)
+
+          if message.is_a? Hash
+            if message["retry"]
+              status = "retry"
+              msg = "MarkTest failed, retrying."
+            else
+              status "dead"
+              msg = "MarkTest faild, not retrying."
+            end
+            return {
+              '@status' => status,
+              '@message' => "#{time.utc.iso8601} #{::Process.pid} TID-#{Thread.current.object_id.to_s(36)}#{context} #{severity}: #{msg}"
+            }
+          end
 
           result = message.split(" ")
           status = result[0].match(/^(start|done):?$/) || []

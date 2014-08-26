@@ -39,5 +39,15 @@ describe "Sidekiq::Logging::Json" do
       it { expect( status ).to eq("exception") }
       it { expect( run_time ).to eq(nil) }
     end
+
+    context "retry" do
+      let(:logentry) do
+        {"retry"=>true, "queue"=>"default", "class"=>"MarkTest", "args"=>["markie"], "jid"=>"0ca71f2580fdc0ae19a59063", "enqueued_at"=>1405957471.1871092}
+      end
+
+      it { expect(message).to match( "MarkTest failed, retrying." ) }
+      it { expect( status ).to eq("retry") }
+      it { expect( run_time ).to eq(nil) }
+    end
   end
 end
