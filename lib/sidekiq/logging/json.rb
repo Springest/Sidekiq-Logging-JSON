@@ -22,14 +22,18 @@ module Sidekiq
             '@severity' => severity,
             '@run_time' => nil,
             '@message' => "#{time.utc.iso8601} #{::Process.pid} TID-#{Thread.current.object_id.to_s(36)}#{context} #{severity}: #{message}",
-          }.merge(process_message(message, severity)).to_json + "\n"
+          }.merge(process_message(message)).to_json + "\n"
         end
 
-        def process_message(message, severity)
+        def process_message(message)
+          return { '@status' => 'exception' } if message.is_a?(Exception)
+
           result = message.split(" ")
+          status = result[0].match(/^(start|done):?$/) || []
+
           {
-            '@status' => result[0],                      # start or done
-            '@run_time' => result[1] && result[1].to_f   # run time in seconds
+            '@status' => status[1],                      # start or done
+            '@run_time' => status[1] && result[1] && result[1].to_f   # run time in seconds
           }
         end
       end
