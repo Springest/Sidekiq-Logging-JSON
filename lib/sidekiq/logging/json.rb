@@ -33,7 +33,7 @@ module Sidekiq
               status = "retry"
               msg = "#{message['class']} failed, retrying with args #{message['args']}."
             else
-              status "dead"
+              status = "dead"
               msg = "#{message['class']} failed with args #{message['args']}, not retrying."
             end
             return {
@@ -46,7 +46,7 @@ module Sidekiq
           status = result[0].match(/^(start|done|fail):?$/) || []
 
           {
-            '@status' => status[1],                      # start or done
+            '@status' => status[1],                                   # start or done
             '@run_time' => status[1] && result[1] && result[1].to_f   # run time in seconds
           }
         end
