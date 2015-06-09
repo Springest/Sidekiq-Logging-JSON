@@ -31,10 +31,10 @@ module Sidekiq
           if message.is_a? Hash
             if message["retry"]
               status = "retry"
-              msg = "#{message['class']} failed, retrying with args #{message['args']}."
+              msg = "#{message['class']} failed, retrying with args #{message['args'].to_s[0..400]}."
             else
               status = "dead"
-              msg = "#{message['class']} failed with args #{message['args']}, not retrying."
+              msg = "#{message['class']} failed with args #{message['args'].to_s[0..400]}, not retrying."
             end
             return {
               '@status' => status,
