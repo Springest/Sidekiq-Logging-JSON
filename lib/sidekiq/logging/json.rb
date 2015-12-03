@@ -21,34 +21,35 @@ module Sidekiq
             '@status' => nil,
             '@severity' => severity,
             '@run_time' => nil,
-            '@message' => "#{time.utc.iso8601} #{::Process.pid} TID-#{Thread.current.object_id.to_s(36)}#{context} #{severity}: #{message}",
-          }.merge(process_message(severity, time, program_name, message)).to_json + "\n"
+          }.merge(process_message(message)).to_json + "\n"
         end
 
-        def process_message(severity, time, program_name, message)
-          return { '@status' => 'exception' } if message.is_a?(Exception)
-
-          if message.is_a? Hash
+        def process_message(message)
+          case message
+          when Exception
+            { '@status' => 'exception', '@message' => message.message }
+          when Hash
             if message["retry"]
-              status = "retry"
-              msg = "#{message['class']} failed, retrying with args #{message['args']}."
+              {
+                '@status' => 'retry',
+                '@message' => "#{message['class']} failed, retrying with args #{message['args']}."
+              }
             else
-              status = "dead"
-              msg = "#{message['class']} failed with args #{message['args']}, not retrying."
+              {
+                '@status' => 'dead',
+                '@message' => "#{message['class']} failed with args #{message['args']}, not retrying."
+              }
             end
-            return {
-              '@status' => status,
-              '@message' => "#{time.utc.iso8601} #{::Process.pid} TID-#{Thread.current.object_id.to_s(36)}#{context} #{severity}: #{msg}"
+          else
+            result = message.split(" ")
+            status = result[0].match(/^(start|done|fail):?$/) || []
+
+            {
+              '@status' => status[1],                                   # start or done
+              '@run_time' => status[1] && result[1] && result[1].to_f,  # run time in seconds
+              '@message' => message
             }
           end
-
-          result = message.split(" ")
-          status = result[0].match(/^(start|done|fail):?$/) || []
-
-          {
-            '@status' => status[1],                                   # start or done
-            '@run_time' => status[1] && result[1] && result[1].to_f   # run time in seconds
-          }
         end
       end
     end
