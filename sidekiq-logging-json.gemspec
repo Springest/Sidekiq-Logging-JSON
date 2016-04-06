@@ -6,8 +6,8 @@ require 'sidekiq/logging/json/version'
 Gem::Specification.new do |spec|
   spec.name          = "sidekiq-logging-json"
   spec.version       = Sidekiq::Logging::Json::VERSION
-  spec.authors       = ["Wouter de Vos"]
-  spec.email         = ["wouter@springest.com"]
+  spec.authors       = ["Wouter de Vos", "Tim Flapper"]
+  spec.email         = "developers@springest.com"
   spec.summary       = %q{Sidekiq JSON log format, e.g. for Logstash.}
   spec.description   = <<-DESC
 At Springest, we use Logstash to ship all our logs to Elasticsearch. An Elasticsearch index consists of JSON documents.
