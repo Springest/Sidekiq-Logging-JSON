@@ -1,9 +1,6 @@
 # Sidekiq::Logging::Json
 
-At [Springest](http://www.springest.com), we use
-[Logstash](http://logstash.net/) to ship all our logs to
-[Elasticsearch](http://www.elasticsearch.org/). An Elasticsearch index
-consists of JSON documents. To make it possible to make fine grained
+An Elasticsearch index consists of JSON documents. To make it possible to make fine grained
 queries on [Sidekiq](http://sidekiq.org/) logs, we needed logging in
 JSON format. This gem contains that logger.
 
