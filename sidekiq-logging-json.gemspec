@@ -27,5 +27,5 @@ DESC
   spec.add_development_dependency "rake", "~> 10"
   spec.add_development_dependency "rspec", "~> 3"
 
-  spec.add_runtime_dependency "sidekiq", "~> 3"
+  spec.add_runtime_dependency "sidekiq", ">= 3"
 end
