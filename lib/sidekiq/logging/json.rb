@@ -22,6 +22,8 @@ module Sidekiq
           }.merge(process_message(message)).to_json + "\n"
         end
 
+        private
+
         def process_message(message)
           case message
           when Exception
