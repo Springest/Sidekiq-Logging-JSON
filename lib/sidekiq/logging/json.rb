@@ -1,7 +1,5 @@
 require "sidekiq"
 require "sidekiq/logging/json/version"
-require "sidekiq/logging/json"
-require "json"
 
 module Sidekiq
   module Logging
