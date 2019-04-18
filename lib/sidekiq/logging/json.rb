@@ -5,7 +5,6 @@ module Sidekiq
   module Logging
     module Json
       class Logger < Sidekiq::Logging::Pretty
-        # Provide a call() method that returns the formatted message.
         def call(severity, time, program_name, message)
           {
             '@timestamp' => time.utc.iso8601,
