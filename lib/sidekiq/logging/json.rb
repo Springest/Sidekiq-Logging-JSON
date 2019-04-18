@@ -27,7 +27,10 @@ module Sidekiq
         def process_message(message)
           case message
           when Exception
-            { '@status' => 'exception', '@message' => message.message }
+            {
+              '@status' => 'exception',
+              '@message' => message.message
+            }
           when Hash
             if message["retry"]
               {
