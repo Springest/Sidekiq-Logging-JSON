@@ -1,10 +1,10 @@
-require "sidekiq"
-require "sidekiq/logging/json/version"
+require 'sidekiq'
+require 'sidekiq/logger'
 
 module Sidekiq
-  module Logging
-    module Json
-      class Logger < Sidekiq::Logging::Pretty
+  class Logger
+    module Formatters
+      class ExpandedJSON < Sidekiq::Logger::Formatters::JSON
         def call(severity, time, program_name, message)
           {
             '@timestamp' => time.utc.iso8601,
@@ -13,12 +13,12 @@ module Sidekiq
               :tid => "TID-#{Thread.current.object_id.to_s(36)}",
               :context => "#{context}",
               :program_name => program_name,
-              :worker => "#{context}".split(" ")[0]
+              :worker => "#{context}".split(' ')[0]
             },
             '@type' => 'sidekiq',
             '@status' => nil,
             '@severity' => severity,
-            '@run_time' => nil,
+            '@run_time' => nil
           }.merge(process_message(message)).to_json + "\n"
         end
 
@@ -32,7 +32,7 @@ module Sidekiq
               '@message' => message.message
             }
           when Hash
-            if message["retry"]
+            if message['retry']
               {
                 '@status' => 'retry',
                 '@message' => "#{message['class']} failed, retrying with args #{message['args']}."
@@ -44,7 +44,7 @@ module Sidekiq
               }
             end
           else
-            result = message.split(" ")
+            result = message.split(' ')
             status = result[0].match(/^(start|done|fail):?$/) || []
 
             {
